@@ -81,6 +81,9 @@ def register():
 @app.route('/logout', methods=["GET"])
 @login_required  # Garante que apenas usuários autenticados possam fazer logout
 def logout():
+  if not current_user.is_authenticated:
+    return jsonify({"message": "Você precisa estar autenticado para fazer logout."}), 401
+  
   logout_user()  # Encerra a sessão do usuário
   return jsonify({"message": "Desconectado com sucesso!"}), 200
 
