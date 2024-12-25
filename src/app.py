@@ -2,7 +2,8 @@ import os
 from flask import Flask, request, jsonify
 from database import db  # Importando o db de src/database.py
 from models.user import User  # Importando o modelo de User
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, current_user
+from werkzeug.security import check_password_hash  # Usado para verificar senhas criptografadas
 
 app = Flask(__name__)
 
@@ -23,6 +24,13 @@ login_manager = LoginManager()
 # Inicializando a extensão db
 db.init_app(app)
 login_manager.init_app(app)
+# View de login
+login_manager.login_view = 'login'
+
+# Conexão ativa
+@login_manager.user_loader
+def load_user(user_id):
+  return User.query.get(user_id)
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -31,10 +39,11 @@ def login():
   password = data.get("password")
 
   if username and password:
-    # Login
-    user = User.query.filter_by(username=username).first()  # Correção aqui
+    # Verificando se o usuário existe
+    user = User.query.filter_by(username=username).first()
 
-    if user and user.password == password:
+    if user and check_password_hash(user.password, password):  # Verificação da senha criptografada
+      login_user(user)  # Inicia a sessão
       return jsonify({"message": "Autenticação realizada com sucesso!"})
 
   return jsonify({"message": "Credenciais inválidas"}), 400
