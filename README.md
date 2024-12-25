@@ -13,10 +13,11 @@
 
 ````bash
 # Clone este repositório
-$ git clone <https://github.com/Gelzieny/gerenciamento-tarefas.git>
+$ git clone <https://github.com/Gelzieny/sample-flask-auth.git>
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd gerenciamento-tarefas
+$ cd sample-flask-auth
+
 ````
 
 ### Configuração do Ambiente
@@ -29,34 +30,11 @@ $ python -m venv venv && venv\Scripts\activate && pip install -r requirements.tx
 # No Linux/Mac 
 $ python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
 
-# Criar todas as tabelas do banco de dados definidas nos modelos
-$ db.create_all()
-
-# Adiciona o novo usuário à sessão
-$ db.session
-
-# Confirma todas as mudanças feitas na sessão no banco de dados
-$ db.session.commit()
 ````
 
-#### Caso o corra um erro ao criar um banco executar os comandos a seguir
+### Executar projeto
 
-### Adicionar o caminho de src ao PYTHONPATH
 ````bash
-# Windows (CMD):
-
-$ set PYTHONPATH=src
-$ set FLASK_APP=src.app
-$ flask shell
-
-# Windows (Powershell):
-$ $env:PYTHONPATH = "src"
-$ $env:FLASK_APP = "src.app"
-$ flask shell
-
-
-# Linux/Mac:
-$ export PYTHONPATH=src
-$ export FLASK_APP=src.app
-$ flask shell
+# Para roda o projeto
+$ python src/app.py
 ````
