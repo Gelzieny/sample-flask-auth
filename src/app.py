@@ -12,7 +12,7 @@ instance_path = os.path.join(os.getcwd(), 'instance')
 
 # Garantir que o diretório exista
 if not os.path.exists(instance_path):
-  os.makedirs(instance_path)
+    os.makedirs(instance_path)
 
 # Configurações do Flask
 app.config['SECRET_KEY'] = "your_secret_key"
@@ -27,7 +27,7 @@ login_manager.init_app(app)
 # View de login
 login_manager.login_view = 'login'
 
-# Conexão ativa
+
 @login_manager.user_loader
 def load_user(user_id):
   return User.query.get(user_id)
@@ -35,21 +35,30 @@ def load_user(user_id):
 @app.route('/login', methods=["POST"])
 def login():
   data = request.json
+  print(f"Dados recebidos: {data}") 
+
   username = data.get("username")
   password = data.get("password")
 
   if username and password:
-    # Verificando se o usuário existe
     user = User.query.filter_by(username=username).first()
+    if not user:
+      print("Usuário não encontrado") 
+      return jsonify({"message": "Usuário não encontrado"}), 404
 
-    if user and check_password_hash(user.password, password):  # Verificação da senha criptografada
-      login_user(user)  # Inicia a sessão
+    print(f"Usuário encontrado: {user.username}") 
+    print("User", user.password, 'T', password)
+
+    # Verificando a senha
+    if check_password_hash(user.password, password):  
+      print("Senha correta")  
+      login_user(user)  
       return jsonify({"message": "Autenticação realizada com sucesso!"})
-
+    else:
+      print("Senha incorreta")  
   return jsonify({"message": "Credenciais inválidas"}), 400
 
 
-# Criando as tabelas no banco de dados, se ainda não existirem
 if __name__ == '__main__':
   with app.app_context():
     db.create_all()
