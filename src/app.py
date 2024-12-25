@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from flask import Flask, request, jsonify
 from database import db  # Certifique-se de que o caminho de importação está correto
 from models.user import User  # Certifique-se de que o caminho de importação está correto
-from flask_login import LoginManager, login_user, current_user
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash  # Para verificar e gerar senhas criptografadas
 
 # Criação da aplicação Flask
@@ -77,6 +77,12 @@ def register():
     return jsonify({"message": "Usuário criado com sucesso!"}), 201
 
   return jsonify({"message": "Dados inválidos"}), 400
+
+@app.route('/logout', methods=["GET"])
+@login_required  # Garante que apenas usuários autenticados possam fazer logout
+def logout():
+  logout_user()  # Encerra a sessão do usuário
+  return jsonify({"message": "Desconectado com sucesso!"}), 200
 
 if __name__ == '__main__':
   with app.app_context():
