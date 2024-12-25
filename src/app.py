@@ -59,10 +59,10 @@ def login():
 @app.route('/register', methods=["POST"])
 def register():
   data = request.json
-  print(f"Dados recebidos para cadastro: {data}") 
 
   username = data.get("username")
   password = data.get("password")
+  role = data.get("role") 
 
   if username and password:
     existing_user = User.query.filter_by(username=username).first()
@@ -70,7 +70,7 @@ def register():
       return jsonify({"message": "Usuário já existe!"}), 400
 
     hashed_password = generate_password_hash(password)
-    new_user = User(username=username, password=hashed_password)
+    new_user = User(username=username, password=hashed_password, role=role)
 
     db.session.add(new_user)
     db.session.commit()
@@ -78,7 +78,6 @@ def register():
     return jsonify({"message": "Usuário criado com sucesso!"}), 201
 
   return jsonify({"message": "Dados inválidos"}), 400
-
 
 @app.route('/list-user', methods=["GET"])
 @login_required  
@@ -97,16 +96,25 @@ def get_user():
 
   return jsonify(users_data), 200
 
-@app.route('/update-user', methods=["PUT"])
+@app.route('/update-user/<int:id>', methods=["PUT"])
 @login_required
-def update_user():
+def update_user(id):
+
+  user_to_update = db.session.get(User, id)
+
+  if not user_to_update:
+    return jsonify({"message": "Usuário não encontrado."}), 404
+  
+  if current_user.id != user_to_update.id and current_user.role != 'admin':
+    return jsonify({"message": "Você não tem permissão para alterar esse perfil."}), 403
+  
   data = request.json
 
   if "username" in data:
-    current_user.username = data["username"]
+    user_to_update.username = data["username"]
 
   if "password" in data:
-    current_user.password = generate_password_hash(data["password"]) 
+    user_to_update.password = generate_password_hash(data["password"])
 
   db.session.commit()
 

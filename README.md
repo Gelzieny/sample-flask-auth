@@ -44,6 +44,9 @@ $ cd sample-flask-auth
 ### Configuração do Ambiente
 
 ````bash
+# Acessando o Shell
+$ flask --app src.app.py shell
+
 # Crie e ative um ambiente virtual e Instale as dependências
 # No Windows
 $ python -m venv venv && venv\Scripts\activate && pip install -r requirements.txt
