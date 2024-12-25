@@ -24,7 +24,7 @@ if not os.path.exists(instance_path):
 # Configurações do Flask
 app.config['SECRET_KEY'] = "your_secret_key"
 # Usando caminho relativo para o banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(instance_path, "database.db")}'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin123@127.0.0.1:3306/flask-crud'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager()

@@ -19,6 +19,7 @@ Este projeto é uma API de autenticação simples desenvolvida com Flask. A API 
 - **Flask-Login**: Gerenciamento de sessões de login.
 - **SQLAlchemy**: ORM (Object Relational Mapper) para interação com o banco de dados.
 - **Werkzeug**: Biblioteca para manipulação de senhas (hashing).
+- **Docker**: Contêinerização para facilitar a execução do projeto em qualquer ambiente.
 
 
 ### Pré-requisitos
@@ -26,7 +27,7 @@ Este projeto é uma API de autenticação simples desenvolvida com Flask. A API 
 <p align="justify">Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:</p>
 
 <a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=git,vscode,python,postman" />
+  <img src="https://skillicons.dev/icons?i=git,vscode,python,postman,docker" />
 </a>
 
 ### Clone o repositório
@@ -58,3 +59,16 @@ $ python3 -m venv venv && source venv/bin/activate && pip install -r requirement
 # Para roda o projeto
 $ python src/app.py
 ````
+
+
+### Como usar:
+
+1. Substitua o `usuario` e `repo-flask-auth` pelo nome correto de seu repositório.
+2. Caso o seu projeto tenha algum arquivo `requirements.txt`, adicione a listagem de pacotes que o seu projeto usa, como `Flask`, `Flask-Login`, `SQLAlchemy`, etc.
+3. O **README.md** descreve a instalação, uso das rotas da API, e a estrutura do diretório para facilitar o entendimento do seu projeto.
+
+### Passos para rodar com Docker:
+
+1. Certifique-se de que o Docker está instalado e em funcionamento na sua máquina.
+2. Execute `docker-compose up --build` para construir e iniciar os contêineres.
+3. A aplicação estará acessível em `http://127.0.0.1:5000/`.
